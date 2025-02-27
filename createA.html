@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="index.js" defer></script>
+    <style> 
+        html {
+            margin: 0px;
+            height: 100%;
+            width: 100%;
+        }
+        body {
+            margin: 0px;
+            min-height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        div {
+            align-self: center;
+        }
+        * {
+            margin: 3px;
+        }
+        </style>
+    <title>DOM Bank create account </title>
+</head>
+<body>
+    <div>
+    <form id="createAccForm" onsubmit="return false">
+        <h3>Create new account</h3>
+        <input id="emailCreate" type="email"> Email
+        <br>
+        <input id="passCreate" type="password"> Password
+        <br>
+        <button id="createAccButton">Sign up</button>
+        <p>Already signed up? <a href="loginA.html">Login here</a></p>
+    </form>
+    </div>
+</body>
+</html>
