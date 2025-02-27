@@ -1,5 +1,5 @@
-/*Login dio - Alem*//*
-
+/*Login dio - Alem*/ // ovaj dio koda radi samo ako je taj hmtl ocitan
+if (window.location.pathname == "/loginA.html"){
 const emailLogin    = document.querySelector("#emailLogin")
 const passLogin     = document.querySelector("#passLogin")
 const logInButton   = document.querySelector("#logInButton")
@@ -17,10 +17,11 @@ logInButton.addEventListener("click", () => {
         return
     }
     
-})*/
+})
+}
 /* Login dio zavrsen - Alem*/
 /* Create acc dio : */
-
+if (window.location.pathname == "/createA.html"){ // ovaj dio koda radi samo ako je taj hmtl ocitan
 const emailCreate       = document.querySelector("#emailCreate")
 const passCreate        = document.querySelector("#passCreate")
 const createAccButton   = document.querySelector("#createAccButton")
@@ -39,5 +40,5 @@ createAccButton.addEventListener("click", () => {
     console.log(createdAccounts)
     console.log(createdAccounts[0])
 })
-
+}
 /* Create acc dio zavrsen*/
