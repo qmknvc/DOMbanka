@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="createAcc.css">
+    <script src="createAcc.js" defer></script>
+</head>
+<body>
+    <div id="div-of-form">
+        <form id="form">
+            <input type="text" class="createAccFormInputs" id="name" placeholder="Insert Name">
+            <input type="text" class="createAccFormInputs" id="surname" placeholder="Insert Surname">
+            <input type="email" class="createAccFormInputs" id="email" placeholder="Insert e-mail">
+            <input type="tel" class="createAccFormInputs" id="phone" placeholder="Insert telephone number">
+            <input id="password" type="password" class="createAccFormInputs" placeholder="Insert password">
+            <input id="new-password" type="password" class="createAccFormInputs" placeholder="Confirm password">
+
+            <div id="div-type-of-acc">
+                <label><input type="radio" name="type-acc" class="acc-type" value="Checkings Account"> Checkings Account</label>
+                <label><input type="radio" name="type-acc" class="acc-type" value="Savings Account"> Savings Account</label>
+            </div> 
+            
+            <button type="submit" id="submit-btn">Create Account</button>
+        </form>
+    </div>
+</body>
+</html>
