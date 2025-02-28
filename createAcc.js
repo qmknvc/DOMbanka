@@ -51,7 +51,7 @@ submitButton.addEventListener("click", (event) => {
     return;
   }
 
-  // Kreiranje objekta koji cuva informacije o useru 
+  // Kreiranje objekta koji cuva informacije o useru
   const userData = {
     name,
     surname,
@@ -60,9 +60,22 @@ submitButton.addEventListener("click", (event) => {
     accountType: selectedAccountType,
   };
 
+  // Spremanje u localStorage kao objekat
   localStorage.setItem("userData", JSON.stringify(userData));
 
   alert("Nalog uspješno kreiran!");
   form.reset();
 });
+
+// Funkcija za validaciju e-maila
+function validateEmail(email) {
+  const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return re.test(email);
+}
+
+// Funkcija za validaciju broja telefona
+function validatePhone(phone) {
+  const re = /^\+?[0-9]{9,15}$/; // Dozvoljava brojeve telefona sa ili bez "+"
+  return re.test(phone);
+}
 
