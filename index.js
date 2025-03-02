@@ -7,18 +7,20 @@ const createAccForm     = document.querySelector("#createAccForm")
 
 const createdAccounts = []
 
-function user(email, password){
+class User {
+    static ID = 0;
+    constructor(email, password){
     this.email = email
     this.password = password
+    this.uniqueID = String(++User.ID).padStart(4, '0')
+    }
 }
 
 createAccButton.addEventListener("click", (event) => {
     event.preventDefault()
-    const newUser = new user(emailCreate.value, passCreate.value)
+    const newUser = new User(emailCreate.value, passCreate.value)
     createdAccounts.push(newUser)
-
-    const registeredUsers = JSON.stringify(createdAccounts)
-    localStorage.setItem("users", registeredUsers)
+    localStorage.setItem("users", JSON.stringify(createdAccounts))
 })
 }
 /* Create acc dio zavrsen*/
@@ -29,21 +31,38 @@ const passLogin     = document.querySelector("#passLogin")
 const logInButton   = document.querySelector("#logInButton")
 const loginForm     = document.querySelector("#loginForm")
 
+const createdAccounts = JSON.parse(localStorage.getItem("users"))
+console.log(createdAccounts[0])
+console.log(createdAccounts[1])
+console.log(createdAccounts[2])
+console.log(createdAccounts.length)
+
 logInButton.addEventListener("click", (event) => {
     event.preventDefault()
-    if(emailLogin.value != 'test'){
-        alert("Invalid email")
+    let emailErrorMessage = document.querySelector("#emailErrorMessage")
+    let passErrorMessage  = document.querySelector("#passErrorMessage")
+    let successfulLogin   = document.querySelector("#successfulLogin")
+    emailLogin.addEventListener("input", () => {
+        emailErrorMessage.style.opacity = "0"
+    })
+    passLogin.addEventListener("input", () => {
+        passErrorMessage.style.opacity = "0"
+    })
+    
+    const searchedUser = createdAccounts.find(user => user.email == emailLogin.value)
+    if (!searchedUser){
+        emailErrorMessage.style.opacity = "100"
         emailLogin.value = ''
         return
     }
-    else if(passLogin.value != 'test'){
-        alert("Invalid password")
+    if (passLogin.value != searchedUser.password){
+        passErrorMessage.style.opacity = "100"
         passLogin.value = ''
         return
     }
-    //window.location.href = "frontPage.html";
-    const newRegisteredUser = JSON.parse(localStorage.getItem("users"))
-    console.log(newRegisteredUser[0])
+    successfulLogin.style.opacity = "100"
+    //window.location.href = "BEJDIN FRONT PAGE PLACEHOLDER.html";
 })
+
 }
 /* Login dio zavrsen - Alem*/
