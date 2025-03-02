@@ -1,8 +1,7 @@
-/* Create acc dio : - Alem*/
+/* Emir dio - create acc */
 
 
-/* Emir dio create acc */
-if (window.location.pathname == "/createAcc.html"){
+if (window.location.pathname == "/createAccount.html"){
 
     const form = document.getElementById("form");
     const password = document.getElementById("password");
@@ -11,8 +10,23 @@ if (window.location.pathname == "/createAcc.html"){
     const phoneInput = document.querySelector("input[type='tel']");
     const accountTypes = document.querySelectorAll("input[name='type-acc']");
     const submitButton = document.querySelector("button[type='submit']");
-    const userDataDiv = document.getElementById("userData");
-    
+
+    const createdAccounts = []
+
+    let selectedAccountType = ''  // Pravi error ako ga ne definisem
+    class User {
+        static ID = 0;
+        accountType = selectedAccountType;
+        constructor(name, surname, email, phone, password){
+        this.name = name
+        this.surname = surname
+        this.email = email
+        this.phone = phone
+        this.password = password
+        this.uniqueID = String(++User.ID).padStart(4, '0')
+        }
+    }
+
     submitButton.addEventListener("click", (event) => {
       event.preventDefault(); // Sprječava osvježavanje stranice
     
@@ -23,7 +37,6 @@ if (window.location.pathname == "/createAcc.html"){
       const phone = phoneInput.value.trim() || "";
       const pass = password.value.trim() || "";
       const confirmPass = newPassword.value.trim() || "";
-      let selectedAccountType = "";
     
       accountTypes.forEach((radio) => {
         if (radio.checked) {
@@ -47,8 +60,8 @@ if (window.location.pathname == "/createAcc.html"){
         return;
       }
     
-      if (pass.length < 8) {
-        alert("Lozinka mora imati najmanje 8 karaktera!");
+      if (pass.length < 6) {
+        alert("Lozinka mora imati najmanje 6 karaktera!");
         return;
       }
     
@@ -56,26 +69,13 @@ if (window.location.pathname == "/createAcc.html"){
         alert("Lozinke se ne podudaraju!");
         return;
       }
-    
-      // Kreiranje objekta koji cuva informacije o useru
-      
-      class User {
-        static ID = 0;
-        accountType = selectedAccountType;
-        constructor(name, surname, email, phone, password){
-        this.name = name
-        this.surname = surname
-        this.email = email
-        this.phone = phone
-        this.password = password
-        this.uniqueID = String(++User.ID).padStart(4, '0')
-            }
-        }
-        
-        const newUser = new User(name, surname, email, phone, pass)
-        localStorage.setItem("users", JSON.stringify(newUser))
 
-    
+        const newUser = new User(name, surname, email, phone, pass)
+        createdAccounts.push(newUser)
+        localStorage.setItem("users", JSON.stringify(createdAccounts))
+
+        form.reset()
+
     });
     
     // Funkcija za validaciju e-maila
@@ -89,53 +89,19 @@ if (window.location.pathname == "/createAcc.html"){
       const re = /^\+?[0-9]{9,15}$/; // Dozvoljava brojeve telefona sa ili bez "+"
       return re.test(phone);
     }
-    }
 
-
-
-
-/*
-
-if (window.location.pathname == "/createA.html"){ // ovaj dio koda radi samo ako je taj hmtl ocitan
-const emailCreate       = document.querySelector("#emailCreate")
-const passCreate        = document.querySelector("#passCreate")
-const createAccButton   = document.querySelector("#createAccButton")
-const createAccForm     = document.querySelector("#createAccForm")
-
-const createdAccounts = []
-
-class User {
-    static ID = 0;
-    constructor(email, password){
-    this.email = email
-    this.password = password
-    this.uniqueID = String(++User.ID).padStart(4, '0')
-    }
 }
-
-createAccButton.addEventListener("click", (event) => {
-    event.preventDefault()
-    const newUser = new User(emailCreate.value, passCreate.value)
-    createdAccounts.push(newUser)
-    localStorage.setItem("users", JSON.stringify(createdAccounts))
-})
-}
-*/
-
-
 
 /* Create acc dio zavrsen*/
 /*Login dio - Alem*/
 
-if (window.location.pathname == "/loginA.html"){
+if (window.location.pathname == "/loginAccount.html"){
 const emailLogin    = document.querySelector("#emailLogin")
 const passLogin     = document.querySelector("#passLogin")
 const logInButton   = document.querySelector("#logInButton")
 const loginForm     = document.querySelector("#loginForm")
 
-const createdAccounts = []
-const newUser = JSON.parse(localStorage.getItem("users"))
-createdAccounts.push(newUser)
+const createdAccounts = JSON.parse(localStorage.getItem("users"))
 
 console.log(createdAccounts[0])
 console.log(createdAccounts[1])
@@ -165,16 +131,18 @@ logInButton.addEventListener("click", (event) => {
         passLogin.value = ''
         return
     }
+
+    let loggedInUser = searchedUser
+    localStorage.setItem("loggedInUser", JSON.stringify(loggedInUser))
     successfulLogin.style.opacity = "100"
-    window.location.href = "indexBejdo.html";
+    window.location.href = "frontPage.html";
 })
-
 }
+
 /* Login dio zavrsen - Alem*/
-/* Bjedin dio - */
+/* Bjedin dio - Main page*/
 
-if (window.location.pathname == "/indexBejdo.html"){
-
+if (window.location.pathname == "/frontPage.html"){
 const balanceElement = document.querySelector("#acc-balance")
 const withdrawElement = document.querySelector("#withdraw-amount")
 const withdrawForm = document.querySelector("#withdraw form")
@@ -184,6 +152,14 @@ const transferForm = document.querySelector("#transfer form")
 const senderInput = document.querySelector("#sender")
 const recipientInput = document.querySelector("#recipient")
 const transferAmountInput = document.querySelector("#transfer-amount")
+
+const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"))
+
+const accType = document.querySelector("#acc-type")
+const accName = document.querySelector("#acc-name")
+
+accType.textContent = loggedInUser.accountType
+accName.textContent = loggedInUser.name
 
 withdrawForm.addEventListener("submit", function(event){
     event.preventDefault()   //zabranjuje refresh
@@ -203,7 +179,6 @@ withdrawForm.addEventListener("submit", function(event){
         balanceElement.textContent = balance + "$"
         withdrawElement.value = ""
         
-    
     }
 })
 
@@ -234,7 +209,6 @@ transferForm.addEventListener("submit", function (event) {
     } else {
         balance -= transferAmount
         balanceElement.textContent = balance + "$"
-
         
         senderInput.value = ""
         recipientInput.value = ""
@@ -242,4 +216,5 @@ transferForm.addEventListener("submit", function (event) {
     }
 })
 }
+
 /* Bejdin dio zavrsen */
