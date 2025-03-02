@@ -150,78 +150,65 @@ logInButton.addEventListener("click", (event) => {
 /* Bjedin dio - Main page*/
 
 if (window.location.pathname == "/frontPage.html"){
-const balanceElement = document.querySelector("#acc-balance")
-const withdrawElement = document.querySelector("#withdraw-amount")
-const withdrawForm = document.querySelector("#withdraw form")
-
-const accNameElement = document.querySelector("#acc-name")
-const transferForm = document.querySelector("#transfer form")
-const senderInput = document.querySelector("#sender")
-const recipientInput = document.querySelector("#recipient")
-const transferAmountInput = document.querySelector("#transfer-amount")
-
-const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"))
-
-const accType = document.querySelector("#acc-type")
-const accName = document.querySelector("#acc-name")
-
-accType.textContent = loggedInUser.accountType
-accName.textContent = loggedInUser.name
-
-withdrawForm.addEventListener("submit", function(event){
-  event.preventDefault()   //zabranjuje refresh
-  let balanceText = balanceElement.textContent
-  let balance = parseInt(balanceText.replace("$","")) 
-  let withdrawAmount = parseInt(withdrawElement.value)
-
-  if (isNaN(withdrawAmount) ) {
-      alert("Unesite ispravan iznos!")
-      return;
+  const balanceElement = document.querySelector("#acc-balance")
+  const withdrawElement = document.querySelector("#withdraw-amount")
+  const withdrawForm = document.querySelector("#withdraw form")
+  const accNameElement = document.querySelector("#acc-name")
+  const transferForm = document.querySelector("#transfer form")
+  const senderInput = document.querySelector("#sender")
+  const recipientInput = document.querySelector("#recipient")
+  const transferAmountInput = document.querySelector("#transfer-amount")
+  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"))
+  const accType = document.querySelector("#acc-type")
+  const accName = document.querySelector("#acc-name")
+  accType.textContent = loggedInUser.accountType
+  accName.textContent = loggedInUser.name
+  const transferDiv = document.querySelector("#transfer")
+  const body = document.querySelector("body")
+  transferDiv.classList.toggle("hide", loggedInUser.accountType === "Savings Account");
+  body.classList.toggle("body", loggedInUser.accountType === "Savings Account");
+  withdrawForm.addEventListener("submit", function(event){
+      event.preventDefault()   //zabranjuje refresh
+      let balanceText = balanceElement.textContent
+      let balance = parseInt(balanceText.replace("$",""))
+      let withdrawAmount = parseInt(withdrawElement.value)
+      if (isNaN(withdrawAmount) ) {
+          alert("Unesite ispravan iznos!")
+          return;
+      }
+      if (withdrawAmount > balance) {
+          alert("Nema dovoljno sredstava!")
+      } else {
+          balance -= withdrawAmount;
+          balanceElement.textContent = balance + "$"
+          withdrawElement.value = ""
+      }
+  })
+  transferForm.addEventListener("submit", function (event) {
+      event.preventDefault()
+      let balanceText = balanceElement.textContent
+      let balance = parseInt(balanceText.replace("$", ""))
+      let senderName = senderInput.value.trim()
+      let recipientName = recipientInput.value.trim()
+      let transferAmount = parseInt(transferAmountInput.value)
+      if (!senderName || !recipientName || isNaN(transferAmount) ) {
+          alert("Molimo popunite sva polja ispravno!")
+          return
+      }
+      if (senderName !== accNameElement.textContent) {
+          alert("Sender account nije ispravan!")
+          return
+      }
+      if (transferAmount > balance) {
+          alert("Nema dovoljno sredstava!")
+      } else {
+          balance -= transferAmount
+          balanceElement.textContent = balance + "$"
+          senderInput.value = ""
+          recipientInput.value = ""
+          transferAmountInput.value = ""
+      }
+  })
   }
-
-  if (withdrawAmount > balance) {
-      alert("Nema dovoljno sredstava!")
-  } else {
-      balance -= withdrawAmount;
-      balanceElement.textContent = balance + "$"
-      withdrawElement.value = ""
-      
-  }
-})
-
-transferForm.addEventListener("submit", function (event) {
-  event.preventDefault() 
-
-  let balanceText = balanceElement.textContent
-  let balance = parseInt(balanceText.replace("$", ""))
-  let senderName = senderInput.value.trim()
-  let recipientName = recipientInput.value.trim()
-  let transferAmount = parseInt(transferAmountInput.value)
-
-
-  if (!senderName || !recipientName || isNaN(transferAmount) ) {
-      alert("Molimo popunite sva polja ispravno!")
-      return
-  }
-
-  
-  if (senderName !== accNameElement.textContent) {
-      alert("Sender account nije ispravan!")
-      return
-  }
-
-  
-  if (transferAmount > balance) {
-      alert("Nema dovoljno sredstava!")
-  } else {
-      balance -= transferAmount
-      balanceElement.textContent = balance + "$"
-      
-      senderInput.value = ""
-      recipientInput.value = ""
-      transferAmountInput.value = ""
-  }
-})
-}
 
 /* Bejdin dio zavrsen */
