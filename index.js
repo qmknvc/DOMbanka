@@ -1,6 +1,5 @@
 /* Emir dio - create acc */
 
-
 if (window.location.pathname == "/createAccount.html"){
 
     const form = document.getElementById("form");
@@ -54,6 +53,12 @@ if (window.location.pathname == "/createAccount.html"){
         alert("Unesite validnu e-mail adresu!");
         return;
       }
+
+      const alreadyExistingEmail = createdAccounts.find(user => user.email == email) // Trazi vec postojeci email
+      if (alreadyExistingEmail) {
+        alert("Email vec se koristi!");
+        return;
+      }
     
       if (!validatePhone(phone)) {
         alert("Unesite validan broj telefona! (Primjer: +38761123456)");
@@ -99,14 +104,16 @@ if (window.location.pathname == "/loginAccount.html"){
 const emailLogin    = document.querySelector("#emailLogin")
 const passLogin     = document.querySelector("#passLogin")
 const logInButton   = document.querySelector("#logInButton")
-const loginForm     = document.querySelector("#loginForm")
 
 const createdAccounts = JSON.parse(localStorage.getItem("users"))
 
-console.log(createdAccounts[0])
+console.log(createdAccounts[0]) // U konzoli da provjerim postojece accounts
 console.log(createdAccounts[1])
 console.log(createdAccounts[2])
-console.log(createdAccounts.length)
+console.log(createdAccounts[3])
+console.log(createdAccounts[4])
+console.log(createdAccounts[5])
+console.log("Accounts: ", createdAccounts.length)
 
 logInButton.addEventListener("click", (event) => {
     event.preventDefault()

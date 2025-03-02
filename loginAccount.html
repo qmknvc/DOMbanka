@@ -11,22 +11,48 @@
         width: 100%;
     }
     body {
-        margin: 0px;
+        display: flex;
         min-height: 100%;
         width: 100%;
-        display: flex;
         justify-content: center;
+        align-items: center;
+        background-color: #f4f4f4;
+        font-family: Arial, sans-serif;
     }
     div {
-        align-self: center;
+        background: #ffffff;
+        padding: 22px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 350px;
+        text-align: center;
     }
-    * {
-        margin: 3px;
+    form {
+        display: flex;
+        flex-direction: column;
     }
-    label {
-        position: absolute;
-        margin-top: 4px;
-        margin-left: 12px;
+    button {
+        padding: 12px;
+        background-color: #2a2f35;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    button:hover {
+        background-color: #048a52;
+    }
+    input, select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+    }
+    input:focus, select:focus {
+        border-color: #007bff;
+        outline: none;
     }
     </style>
     <title>DOM Bank login</title>
@@ -34,10 +60,9 @@
 <body>
     <div>
     <form id="loginForm">
-        <h3>Login</h3>
-        <input id="emailLogin" type="email"> Email <label id="emailErrorMessage" style="color: red; opacity: 0;">Incorrect Email</label>
-        <br>
-        <input id="passLogin" type="password"> Password <label id="passErrorMessage" style="color: red; opacity: 0;">Incorrect Password</label>
+        <h2>Login</h3>
+        <input id="emailLogin" type="email" placeholder="Insert e-mail"><label id="emailErrorMessage" style="color: red; opacity: 0;">Incorrect Email</label>
+        <input id="passLogin" type="password" placeholder="Insert password"><label id="passErrorMessage" style="color: red; opacity: 0;">Incorrect Password</label>
         <br>
         <button id="logInButton">Sign in</button> <label id="successfulLogin" style="color: green; opacity: 0;">Successfully logged in!</label>
         <p>or <a id="createNewAcc" href="createAccount.html">create a new account </a></p>
