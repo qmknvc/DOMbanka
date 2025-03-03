@@ -16,6 +16,7 @@ if (window.location.pathname == "/createAccount.html"){
   class User {
       static ID = 0;
       accountType = selectedAccountType;
+      currentBalance = 0;
       constructor(name, surname, email, phone, password){
       this.name = name
       this.surname = surname
@@ -167,6 +168,9 @@ if (window.location.pathname == "/frontPage.html"){
   const body = document.querySelector("body")
   transferDiv.classList.toggle("hide", loggedInUser.accountType === "Savings Account");
   body.classList.toggle("body", loggedInUser.accountType === "Savings Account");
+
+  const createdAccounts = JSON.parse(localStorage.getItem("users"))
+
   withdrawForm.addEventListener("submit", function(event){
       event.preventDefault()   //zabranjuje refresh
       let balanceText = balanceElement.textContent
@@ -184,6 +188,8 @@ if (window.location.pathname == "/frontPage.html"){
           withdrawElement.value = ""
       }
   })
+  console.log(createdAccounts[0])
+  console.log(createdAccounts[1])
   transferForm.addEventListener("submit", function (event) {
       event.preventDefault()
       let balanceText = balanceElement.textContent
@@ -201,13 +207,19 @@ if (window.location.pathname == "/frontPage.html"){
       }
       if (transferAmount > balance) {
           alert("Nema dovoljno sredstava!")
-      } else {
+          return
+      }
+      let receiver = createdAccounts.find(user => user.email == recipientInput.value)
+      if (!receiver){
+        alert("Receiver email ne postoji!")
+        return
+      }
           balance -= transferAmount
           balanceElement.textContent = balance + "$"
+          receiver.currentBalance += transferAmount
           senderInput.value = ""
           recipientInput.value = ""
           transferAmountInput.value = ""
-      }
   })
   }
 
