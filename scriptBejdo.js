@@ -1,3 +1,4 @@
+if (window.location.pathname == "/indexBejdo.html"){ 
 const balanceElement = document.querySelector("#acc-balance")
 const withdrawElement = document.querySelector("#withdraw-amount")
 const withdrawForm = document.querySelector("#withdraw form")
@@ -64,3 +65,9 @@ transferForm.addEventListener("submit", function (event) {
         transferAmountInput.value = ""
     }
 })
+const email = localStorage.getItem("email")
+console.log("121221");
+
+console.log(email)
+
+}
