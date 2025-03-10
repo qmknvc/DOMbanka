@@ -10,13 +10,13 @@ if (window.location.pathname == "/createAccount.html"){
   const accountTypes = document.querySelectorAll("input[name='type-acc']");
   const submitButton = document.querySelector("button[type='submit']");
 
-  const createdAccounts = []
+  const createdAccounts = JSON.parse(localStorage.getItem("users")) || []
 
   let selectedAccountType = ''  // Pravi error ako ga ne definisem
   class User {
       static ID = 0;
       accountType = selectedAccountType;
-      currentBalance = 0;
+      currentBalance = 1000;
       constructor(name, surname, email, phone, password){
       this.name = name
       this.surname = surname
@@ -159,7 +159,7 @@ if (window.location.pathname == "/frontPage.html"){
   const senderInput = document.querySelector("#sender")
   const recipientInput = document.querySelector("#recipient")
   const transferAmountInput = document.querySelector("#transfer-amount")
-  const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"))
+  let loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"))
   const accType = document.querySelector("#acc-type")
   const accName = document.querySelector("#acc-name")
   accType.textContent = loggedInUser.accountType
@@ -170,6 +170,7 @@ if (window.location.pathname == "/frontPage.html"){
   body.classList.toggle("body", loggedInUser.accountType === "Savings Account");
 
   const createdAccounts = JSON.parse(localStorage.getItem("users"))
+  loggedInUser = createdAccounts.find(user => loggedInUser.uniqueID == user.uniqueID)
 
   withdrawForm.addEventListener("submit", function(event){
       event.preventDefault()   //zabranjuje refresh
@@ -183,13 +184,15 @@ if (window.location.pathname == "/frontPage.html"){
       if (withdrawAmount > balance) {
           alert("Nema dovoljno sredstava!")
       } else {
-          balance -= withdrawAmount;
-          balanceElement.textContent = balance + "$"
+          loggedInUser.currentBalance -= withdrawAmount;
+          balanceElement.textContent = loggedInUser.currentBalance + " $"
           withdrawElement.value = ""
+          localStorage.setItem("users", JSON.stringify(createdAccounts))
       }
   })
   console.log(createdAccounts[0])
   console.log(createdAccounts[1])
+  console.log(createdAccounts[2])
   transferForm.addEventListener("submit", function (event) {
       event.preventDefault()
       let balanceText = balanceElement.textContent
@@ -214,13 +217,16 @@ if (window.location.pathname == "/frontPage.html"){
         alert("Receiver email ne postoji!")
         return
       }
-          balance -= transferAmount
-          balanceElement.textContent = balance + "$"
-          receiver.currentBalance += transferAmount
+          loggedInUser.currentBalance -= transferAmount
+          balanceElement.textContent = loggedInUser.currentBalance + " $"
+          receiver.currentBalance += Number(transferAmount)
           senderInput.value = ""
           recipientInput.value = ""
           transferAmountInput.value = ""
+          localStorage.setItem("users", JSON.stringify(createdAccounts))
   })
+
+      balanceElement.textContent = loggedInUser.currentBalance + " $"
   }
 
 /* Bejdin dio zavrsen */
